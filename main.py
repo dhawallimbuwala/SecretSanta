@@ -8,13 +8,23 @@ class SecretSanta:
 
     def get_members_names(self):
         users = input("Enter Users seperated by (,): ")
-        if len(users.split(',')) < 4:
-            users = input("Enter at least 4 Users")
-            return False
-        self.membersName = users.split(",")
-        self.membersName = [name.strip() for name in self.membersName]
+        self.membersName = self.validate_populate_input(users)
         self.get_members_data()
         self.get_random_choice()
+
+    def validate_populate_input(self, input):
+        vals = list(input.split(","))
+        vals = [val.strip() for val in vals if val != " "]
+        if len(input.split(',')) < 4:
+            print("Enter at least 4 users")
+            return False
+        if len(vals) != len(set(vals)):
+            print("Input contains duplicate names")
+            return False
+        if len(vals) < 4:
+            print("Enter at least 4 Users")
+            return False
+        return vals
 
     def get_members_data(self):
         for name in self.membersName:
